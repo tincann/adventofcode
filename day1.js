@@ -18,8 +18,7 @@ function calculate(input){
 	var x = 0, y = 0;
 	var heading = 0;
 
-	input.split(',').forEach(instruction => {
-		instruction = instruction.trim();
+	input.split(', ').forEach(instruction => {
 		//determine direction
 		var direction = instruction[0];
 		
@@ -39,8 +38,6 @@ function calculate(input){
 		}else{
 			x -= (heading - 2) * steps;	
 		}
-
-		console.log(instruction, heading, x, y);
 	});
 
 	return Math.abs(x) + Math.abs(y);
