@@ -11,7 +11,7 @@ func execute(input string) int {
 	numCorrect := 0
 	for _, sideString := range triangles {
 		//parse
-		r, _ := regexp.Compile("\\d+")
+		r := regexp.MustCompile("\\d+")
 		sides := r.FindAllString(sideString, 3)
 		if len(sides) != 3 {
 			continue
@@ -23,17 +23,9 @@ func execute(input string) int {
 		}
 
 		//validate
-		if triangle.side1+triangle.side2 <= triangle.side3 {
-			continue
+		if triangle.validate() {
+			numCorrect++
 		}
-		if triangle.side1+triangle.side3 <= triangle.side2 {
-			continue
-		}
-		if triangle.side2+triangle.side3 <= triangle.side1 {
-			continue
-		}
-
-		numCorrect++
 	}
 	return numCorrect
 }
@@ -50,4 +42,10 @@ func parseSide(side string) int {
 // Triangle represents the side lengths of a triangle
 type Triangle struct {
 	side1, side2, side3 int
+}
+
+func (t Triangle) validate() bool {
+	return t.side1+t.side2 > t.side3 &&
+		t.side1+t.side3 > t.side2 &&
+		t.side2+t.side3 > t.side1
 }
