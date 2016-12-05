@@ -6,16 +6,22 @@ import "strconv"
 func execute(input string) string {
 	instructions := strings.Split(input, "\n")
 	code := ""
-	position := Coordinate{1, 1}
+	var digit string
+	// position := Coordinate{1, 1} //part1
+	position := Coordinate{0, 2}
 	for _, instr := range instructions {
-		position = move(position, strings.TrimSpace(instr))
-		number := position.x + position.y*3 + 1
-		code += strconv.Itoa(number)
+		// position, digit = move(position, strings.TrimSpace(instr)) //part1
+		position, digit = movePart2(position, strings.TrimSpace(instr))
+		code += digit
 	}
 	return code
 }
 
-func move(position Coordinate, instructions string) Coordinate {
+// keypad       coordinates
+// 1 2 3  (0,0) (1,0) (2,0)
+// 4 5 6  (0,1) (1,1) (2,1)
+// 7 8 9  (0,2) (1,2) (2,2)
+func move(position Coordinate, instructions string) (c Coordinate, digit string) {
 	for _, instr := range instructions {
 		dir := directionMap[string(instr)]
 
@@ -33,7 +39,33 @@ func move(position Coordinate, instructions string) Coordinate {
 			position.y = 2
 		}
 	}
-	return position
+	digit = strconv.Itoa(position.x + position.y*3 + 1)
+	return position, digit
+}
+
+//part 2 keypad
+var keyPad = []string{
+	"  1  ",
+	" 234 ",
+	"56789",
+	" ABC ",
+	"  D  ",
+}
+
+func movePart2(position Coordinate, instructions string) (c Coordinate, digit string) {
+	for _, instr := range instructions {
+		dir := directionMap[string(instr)]
+		position.x += dir.horizontal
+		if position.x < 0 || position.x > 4 || string(keyPad[position.y][position.x]) == " " {
+			position.x -= dir.horizontal
+		}
+		position.y += dir.vertical
+		if position.y < 0 || position.y > 4 || string(keyPad[position.y][position.x]) == " " {
+			position.y -= dir.vertical
+		}
+	}
+	digit = string(keyPad[position.y][position.x])
+	return position, digit
 }
 
 // Direction represents a horizontal and vertical direction. Values can be -1 to 1.
@@ -42,10 +74,6 @@ type Direction struct {
 }
 
 // Coordinate is a coordinate on the keypad
-// keypad       coordinates
-// 1 2 3  (0,0) (1,0) (2,0)
-// 4 5 6  (0,1) (1,1) (2,1)
-// 7 8 9  (0,2) (1,2) (2,2)
 type Coordinate struct {
 	x, y int
 }
