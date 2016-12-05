@@ -17,7 +17,8 @@ func Example_2() {
 
 func Test_Final(t *testing.T) {
 	input := readInput("day3.input")
-	fmt.Println("FINAL ANSWER:", execute(input))
+	// fmt.Println("FINAL ANSWER:", execute(input))
+	fmt.Println("FINAL ANSWER:", executePart2(input))
 }
 
 func readInput(path string) string {
