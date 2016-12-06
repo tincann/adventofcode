@@ -22,6 +22,15 @@ func Test_hash2(t *testing.T) {
 	}
 }
 
+func Test_1(t *testing.T) {
+	fmt.Println(computePart2("abc"))
+	// Output: 05ace8e3
+}
+
 func Test_Final(t *testing.T) {
 	fmt.Println("FINAL ANSWER:", compute("ojvtpuvg"))
+}
+
+func Test_FinalPart2(t *testing.T) {
+	fmt.Println("FINAL ANSWER:", computePart2("ojvtpuvg"))
 }
