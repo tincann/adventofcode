@@ -8,12 +8,11 @@ import (
 
 func Test_parseRoom(t *testing.T) {
 	room := parseRoom("aaaaa-bbb-z-y-x-123[abxyz]")
-	fmt.Println(room)
-	assertTrue(t, room.letters["a"] == 5)
-	assertTrue(t, room.letters["b"] == 3)
-	assertTrue(t, room.letters["x"] == 1)
-	assertTrue(t, room.letters["y"] == 1)
-	assertTrue(t, room.letters["z"] == 1)
+	assertTrue(t, room.letterFreq["a"] == 5)
+	assertTrue(t, room.letterFreq["b"] == 3)
+	assertTrue(t, room.letterFreq["x"] == 1)
+	assertTrue(t, room.letterFreq["y"] == 1)
+	assertTrue(t, room.letterFreq["z"] == 1)
 	assertTrue(t, room.roomNumber == "123")
 }
 

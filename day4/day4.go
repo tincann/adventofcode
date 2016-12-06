@@ -4,6 +4,7 @@ import "unicode"
 import "sort"
 import "strings"
 import "strconv"
+import "fmt"
 
 func compute(input string) int {
 	rooms := strings.Split(input, "\n")
@@ -13,13 +14,34 @@ func compute(input string) int {
 		if validateRoom(room) {
 			rn, _ := strconv.Atoi(room.roomNumber)
 			sum += rn
+			secret := decrypt(room)
+			if strings.Contains(secret, "north") {
+				fmt.Println(room.roomNumber, secret)
+			}
 		}
 	}
 	return sum
 }
 
+func decrypt(room room) string {
+	roomNumber, _ := strconv.Atoi(room.roomNumber)
+	shifts := roomNumber % 26
+
+	str := ""
+	for _, chr := range room.letters {
+		if unicode.IsSpace(chr) {
+			str += " "
+		} else {
+			letter := string(((int(chr) - 97 + shifts) % 26) + 97)
+			str += letter
+		}
+	}
+	return str
+}
+
 type room struct {
-	letters    map[string]int
+	letters    string
+	letterFreq map[string]int
 	roomNumber string
 	hash       string
 }
@@ -28,16 +50,19 @@ func parseRoom(input string) room {
 	var i = 0
 	var r rune
 	var room room
-	room.letters = make(map[string]int)
+	room.letterFreq = make(map[string]int)
 
 	//parse until '[' character
 	for ; i < len(input) && string(r) != "["; i++ {
 		r = rune(input[i])
 
 		if unicode.IsLetter(r) {
-			room.letters[string(r)]++
+			room.letterFreq[string(r)]++
+			room.letters += string(r)
 		} else if unicode.IsNumber(r) {
 			room.roomNumber += string(r)
+		} else if string(r) == "-" {
+			room.letters += " "
 		}
 	}
 	//parse hash
@@ -60,9 +85,9 @@ type pair struct {
 type pairList []pair
 
 func validateRoom(room room) bool {
-	pairs := make(pairList, len(room.letters))
+	pairs := make(pairList, len(room.letterFreq))
 	i := 0
-	for k, v := range room.letters {
+	for k, v := range room.letterFreq {
 		pairs[i] = pair{k, v}
 		i++
 	}
