@@ -1,6 +1,7 @@
 package main
 
 import "strings"
+import "math"
 
 type freqTable map[string]int
 
@@ -16,7 +17,26 @@ func (m freqTable) getHighestFreq() string {
 	return letter
 }
 
-func compute(input string) string {
+func (m freqTable) getLowestFreq() string {
+	lowest := math.MaxInt64
+	letter := ""
+	for k, v := range m {
+		if v < lowest {
+			letter = k
+			lowest = v
+		}
+	}
+	return letter
+}
+
+type HighLow int
+
+const (
+	HIGHEST HighLow = iota
+	LOWEST
+)
+
+func compute(input string, highLow HighLow) string {
 	split := strings.Split(input, "\n")
 	width := len(split[0])
 	freq := make([]freqTable, width)
@@ -37,7 +57,11 @@ func compute(input string) string {
 
 	output := ""
 	for _, table := range freq {
-		output += table.getHighestFreq()
+		if highLow == HIGHEST {
+			output += table.getHighestFreq()
+		} else {
+			output += table.getLowestFreq()
+		}
 	}
 
 	return output
