@@ -6,14 +6,25 @@ func compute(input string) int {
 	split := strings.Split(input, "\n")
 	count := 0
 	for _, line := range split {
-		if isValid(line) {
+		if isValidIPV7(line) {
 			count++
 		}
 	}
 	return count
 }
 
-func isValid(ip string) bool {
+func computePart2(input string) int {
+	split := strings.Split(input, "\n")
+	count := 0
+	for _, line := range split {
+		if isValidSSL(line) {
+			count++
+		}
+	}
+	return count
+}
+
+func isValidIPV7(ip string) bool {
 	isWithinBrackets := false
 	valid := false
 	for i := 0; i < len(ip)-3; i++ {
@@ -33,6 +44,50 @@ func isValid(ip string) bool {
 	}
 	// fmt.Println("NOT VALID:", ip)
 	return valid
+}
+
+func isValidSSL(ip string) bool {
+	isWithinBrackets := false
+	outside := make(map[string]bool)
+	inside := make(map[string]bool)
+
+	for i := 0; i < len(ip)-2; i++ {
+		if isChar(ip, i, "[") {
+			isWithinBrackets = true
+		} else if isChar(ip, i, "]") {
+			isWithinBrackets = false
+		}
+
+		valid, str := isABA(ip, i)
+		if valid {
+			if isWithinBrackets {
+				inside[str] = true
+			} else {
+				outside[str] = true
+			}
+		}
+	}
+
+	for aba := range inside {
+		inverted := invertABA(aba)
+		if outside[inverted] {
+			return true
+		}
+	}
+	return false
+}
+
+func invertABA(s string) string {
+	first := string(s[0])
+	second := string(s[1])
+
+	return second + first + second
+}
+
+func isABA(s string, i int) (valid bool, str string) {
+	valid = different(s, i, i+1) &&
+		same(s, i, i+2)
+	return valid, s[i : i+3]
 }
 
 func isABBA(s string, i int) bool {
