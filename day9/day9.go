@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"regexp"
 	"strconv"
-	"strings"
 )
 
 type PART int
@@ -15,17 +14,13 @@ const (
 )
 
 func compute(input string, part PART) int {
-	c := 0
-	for _, line := range strings.Split(input, "\n") {
-		var o string
-		if part == PART1 {
-			o = explode(line)
-		} else {
-			// o = explodePart2(line)
-		}
-		c += len(o)
+	if part == PART1 {
+		return len(explode(input))
 	}
-	return c
+
+	explosions := parse(input)
+	s := eval(explosions)
+	return len(s)
 }
 
 var r = regexp.MustCompile(`\((\d+)x(\d+)\)`)
@@ -116,6 +111,21 @@ func parse(input string) (e *ExplosionList) {
 	output = append(output, *after...)
 
 	return &output
+}
+
+func eval(explosions *ExplosionList) string {
+	output := ""
+	for _, e := range *explosions {
+		if e.isLeaf() {
+			output += e.value
+		} else {
+			val := eval(e.children)
+			for i := 0; i < e.times; i++ {
+				output += val
+			}
+		}
+	}
+	return output
 }
 
 func explodeOnce(input string) (exploded string, index int, done bool) {

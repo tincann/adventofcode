@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 // func Example_1() {
 // 	input := `ADVENT`
 // 	fmt.Println(explode(string(input)))
@@ -37,20 +39,19 @@ package main
 // }
 
 //part 2
-func Example_7() {
-	input := `X(8x2)(3x3)ABCY`
-	//X(8x2)(3x3)ABCXY
-	//1[ X ] 2[ 3[ ABC ] 1[ X ] ] 1[ Y ]
-	parsed := *parse(input)
-	parsed.print()
-	// Output: XABCABCABCABCABCABCY
-}
-
-// func Example_8() {
-// 	input := `(27x12)(20x12)(13x14)(7x10)(1x12)A`
+// func Example_7() {
+// 	input := `X(8x2)(3x3)ABCY`
+// 	//X(8x2)(3x3)ABCXY
+// 	//1[ X ] 2[ 3[ ABC ] 1[ X ] ] 1[ Y ]
 // 	fmt.Println(compute(input, PART2))
-// 	// Output: 241920
+// 	// Output: XABCABCABCABCABCABCY
 // }
+
+func Example_8() {
+	input := `(27x12)(20x12)(13x14)(7x10)(1x12)A`
+	fmt.Println(compute(input, PART2))
+	// Output: 241920
+}
 
 // func Test_Final(t *testing.T) {
 // 	input, _ := ioutil.ReadFile("day9.input")
