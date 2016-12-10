@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"regexp"
 	"strconv"
 )
@@ -18,9 +17,7 @@ func compute(input string, part PART) int {
 		return len(explode(input))
 	}
 
-	explosions := parse(input)
-	s := eval(explosions)
-	return len(s)
+	return explodePart2(input)
 }
 
 var r = regexp.MustCompile(`\((\d+)x(\d+)\)`)
@@ -43,89 +40,50 @@ func explode(input string) string {
 	return output
 }
 
-//Explosion represents an explosion command
-//for example (2x2)AA
-type Explosion struct {
-	value    string
-	times    int
-	children *ExplosionList
-}
+func explodePart2(input string) int {
 
-type ExplosionList []*Explosion
+	count := 0
+	for len(input) > 0 {
+		marker, found := getMarker(input)
+		if !found {
+			count += len(input)
+			break
+		}
 
-func (e *Explosion) print() {
-	fmt.Print("{ ", e.times, "x ")
-	if e.isLeaf() {
-		fmt.Print("'", e.value, "'")
-	} else {
-		e.children.print()
+		count += marker.position
+		count += marker.times * explodePart2(input[marker.startIndex:marker.endIndex])
+		input = input[marker.endIndex:]
 	}
 
-	fmt.Print(" }")
+	return count
 }
 
-func (e *ExplosionList) print() {
-	fmt.Print("[")
-	for _, c := range *e {
-		c.print()
-		fmt.Print(", ")
-	}
-	fmt.Print("]")
-}
-func (e *Explosion) isLeaf() bool {
-	return e.children == nil
+type Marker struct {
+	position   int
+	startIndex int
+	endIndex   int
+	times      int
 }
 
-func parse(input string) (e *ExplosionList) {
+func getMarker(input string) (m *Marker, found bool) {
 	indexes := r.FindStringSubmatchIndex(input)
 	if len(indexes) == 0 {
-		if input == "" {
-			return &ExplosionList{}
-		}
-		e := &Explosion{value: input, times: 1}
-		return &ExplosionList{e}
+		return nil, false
 	}
 
-	//parse times
-	index := indexes[0]
 	matches := r.FindStringSubmatch(input)
 	rng, _ := strconv.Atoi(matches[1])
 	times, _ := strconv.Atoi(matches[2])
 
-	//length of command string
-	skip := len(matches[0])
-
-	exp := Explosion{
-		times: times,
-	}
-
-	//start and end of string that needs to be repeated
-	startIndex := index + skip
+	startIndex := indexes[0] + len(matches[0])
 	endIndex := startIndex + rng
+	return &Marker{
 
-	before := parse(input[:index])
-	exp.children = parse(input[startIndex:endIndex])
-	after := parse(input[endIndex:])
-
-	output := append(*before, &exp)
-	output = append(output, *after...)
-
-	return &output
-}
-
-func eval(explosions *ExplosionList) string {
-	output := ""
-	for _, e := range *explosions {
-		if e.isLeaf() {
-			output += e.value
-		} else {
-			val := eval(e.children)
-			for i := 0; i < e.times; i++ {
-				output += val
-			}
-		}
-	}
-	return output
+		position:   indexes[0],
+		startIndex: startIndex,
+		endIndex:   endIndex,
+		times:      times,
+	}, true
 }
 
 func explodeOnce(input string) (exploded string, index int, done bool) {
