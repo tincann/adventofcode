@@ -1,0 +1,52 @@
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"testing"
+)
+
+func Test_parseRoom(t *testing.T) {
+	room := parseRoom("aaaaa-bbb-z-y-x-123[abxyz]")
+	assertTrue(t, room.letterFreq["a"] == 5)
+	assertTrue(t, room.letterFreq["b"] == 3)
+	assertTrue(t, room.letterFreq["x"] == 1)
+	assertTrue(t, room.letterFreq["y"] == 1)
+	assertTrue(t, room.letterFreq["z"] == 1)
+	assertTrue(t, room.roomNumber == "123")
+}
+
+func Example_1() {
+	room := parseRoom("aaaaa-bbb-z-y-x-123[abxyz]")
+	fmt.Println(validateRoom(room))
+	// Output: true
+}
+
+func Example_2() {
+	room := parseRoom("a-b-c-d-e-f-g-h-987[abcde]")
+	fmt.Println(validateRoom(room))
+	// Output: true
+}
+
+func Example_3() {
+	room := parseRoom("not-a-real-room-404[oarel]")
+	fmt.Println(validateRoom(room))
+	// Output: true
+}
+
+func Example_4() {
+	room := parseRoom("totally-real-room-200[decoy]")
+	fmt.Println(validateRoom(room))
+	// Output: false
+}
+
+func Test_Final(t *testing.T) {
+	input, _ := ioutil.ReadFile("day4.input")
+	fmt.Println("FINAL ANSWER:", compute(string(input)))
+}
+
+func assertTrue(t *testing.T, isTrue bool) {
+	if !isTrue {
+		t.Fail()
+	}
+}
