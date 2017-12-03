@@ -1,6 +1,5 @@
 ﻿using System;
-using AdventOfCode.Core;
-using AdventOfCode.Runner;
+using AdventOfCode.Automation;
 using AdventOfCode.Solutions.Year2017;
 
 namespace AdventOfCode
@@ -9,16 +8,9 @@ namespace AdventOfCode
     {
         static void Main(string[] args)
         {
-	        if (args.Length == 0)
-	        {
-		        Console.WriteLine("Session token:");
-				args = new string[1];
-		        args[0] = Console.ReadLine();
-	        }
-
-	        var api = new PuzzleApi("http://adventofcode.com", args[0]);
+	        var api = new PuzzleApi("http://adventofcode.com", new SessionProvider());
 	        var runner = new SolutionRunner(api);
-	        runner.RunTests(new Day1()).Wait();
+	        runner.Run(new Day3()).Wait();
         }	
     }
 }
