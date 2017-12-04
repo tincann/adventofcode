@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AdventOfCode.Solutions;
@@ -30,9 +31,17 @@ namespace AdventOfCode.Automation
 					Console.WriteLine($"All {solution.Assertions.Count} assertions passed");
 				}
 
+				var sw = new Stopwatch();
+				sw.Start();
 				var outputPart1 = solution.SolvePart1(input);
+				Console.WriteLine(sw.Elapsed.Milliseconds + "ms");
+
 				await AskSubmit(solution, PuzzlePart.Part1, outputPart1);
+
+				sw.Restart();
 				var outputPart2 = solution.SolvePart2(input);
+				Console.WriteLine(sw.Elapsed.Milliseconds + "ms");
+
 				await AskSubmit(solution, PuzzlePart.Part2, outputPart2);
 				Console.ReadLine();
 			}

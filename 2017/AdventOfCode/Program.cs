@@ -10,7 +10,7 @@ namespace AdventOfCode
         {
 	        var api = new PuzzleApi("http://adventofcode.com", new SessionProvider());
 	        var runner = new SolutionRunner(api);
-	        runner.Run(new Day3()).Wait();
+	        runner.Run(new Day4()).Wait();
         }	
     }
 }
