@@ -44,8 +44,7 @@ namespace AdventOfCode.Automation
 
 					await AskSubmit(solution, part, output);
 				}
-
-				Console.ReadLine();
+				Console.ReadKey();
 			}
 			catch (NotImplementedException e)
 		    {

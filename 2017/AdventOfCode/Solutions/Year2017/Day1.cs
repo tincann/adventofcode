@@ -28,7 +28,7 @@ namespace AdventOfCode.Solutions.Year2017
 	    {
 			SolvePart1("1122") == "3",
 		    SolvePart1("1111") == "4",
-		    SolvePart1("1234") == "1234",
+		    SolvePart1("1234") == "0",
 		    SolvePart1("91212129") == "9",
 
 		    SolvePart2("1212") == "6",
