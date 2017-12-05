@@ -9,18 +9,18 @@ namespace AdventOfCode.Solutions.Year2017
 		public int Year => 2017;
 		public int Day => 3;
 
-		public string SolvePart1(string input)
+		public string SolvePart1(params string[] input)
 		{
-			var number = int.Parse(input) - 1;
+			var number = int.Parse(input[0]) - 1;
 			var (x, y) = Spiral().ElementAt(number);
 
 			var distance = Math.Abs(x) + Math.Abs(y);
 			return distance.ToString();
 		}
 
-		public string SolvePart2(string input)
+		public string SolvePart2(params string[] input)
 		{
-			var answer = int.Parse(input);
+			var answer = int.Parse(input[0]);
 			var grid = new int[5000, 5000];
 			var spiral = Spiral();
 

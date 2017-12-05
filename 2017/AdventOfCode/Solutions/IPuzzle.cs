@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AdventOfCode.Solutions
 {
@@ -8,8 +7,8 @@ namespace AdventOfCode.Solutions
 		int Year { get; }
 		int Day { get; }
 
-	    string SolvePart1(string input);
-	    string SolvePart2(string input);
+	    string SolvePart1(string[] input);
+	    string SolvePart2(string[] input);
 
 		ICollection<bool> Assertions { get; }
 	}

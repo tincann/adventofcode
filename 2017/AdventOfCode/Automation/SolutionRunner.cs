@@ -19,6 +19,7 @@ namespace AdventOfCode.Automation
 	    {
 			Console.WriteLine($"# Testing puzzle {solution.Year} - {solution.Day}");
 			var input = await _api.LoadInput(solution.Year, solution.Day);
+		    var inputLines = input.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
 			try
 			{
 				if (!solution.Assertions.All(x => x))
@@ -32,17 +33,18 @@ namespace AdventOfCode.Automation
 				}
 
 				var sw = new Stopwatch();
-				sw.Start();
-				var outputPart1 = solution.SolvePart1(input);
-				Console.WriteLine(sw.Elapsed.Milliseconds + "ms");
+				foreach (var part in new [] { PuzzlePart.Part1, PuzzlePart.Part2 })
+				{
+					sw.Restart();
+					var output = part == PuzzlePart.Part1 ? 
+						solution.SolvePart1(inputLines) : 
+						solution.SolvePart2(inputLines);
 
-				await AskSubmit(solution, PuzzlePart.Part1, outputPart1);
+					Console.WriteLine(sw.Elapsed.Milliseconds + "ms");
 
-				sw.Restart();
-				var outputPart2 = solution.SolvePart2(input);
-				Console.WriteLine(sw.Elapsed.Milliseconds + "ms");
+					await AskSubmit(solution, part, output);
+				}
 
-				await AskSubmit(solution, PuzzlePart.Part2, outputPart2);
 				Console.ReadLine();
 			}
 			catch (NotImplementedException e)

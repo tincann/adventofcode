@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2017
@@ -10,20 +8,18 @@ namespace AdventOfCode.Solutions.Year2017
 		public int Year => 2017;
 		public int Day => 4;
 
-		public string SolvePart1(string input)
+		public string SolvePart1(params string[] input)
 		{
 			var valid = input
-				.Split('\n')
 				.Select(line => line.Split())
 				.Count(words => words.Length == words.Distinct().Count() );
 
 			return valid.ToString();
 		}
 
-		public string SolvePart2(string input)
+		public string SolvePart2(params string[] input)
 		{
 			var valid = input
-				.Split('\n')
 				.Select(line => line.Split().Select(x => string.Concat(x.OrderBy(y => y))).ToList())
 				.Count(words => words.Count == words.Distinct().Count());
 

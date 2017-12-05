@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2017
@@ -9,20 +8,18 @@ namespace AdventOfCode.Solutions.Year2017
 		public int Year => 2017;
 		public int Day => 2;
 
-		public string SolvePart1(string input)
+		public string SolvePart1(params string[] input)
 		{
 			return input
-				.Split("\r\n", StringSplitOptions.RemoveEmptyEntries)
 				.Select(line => line.Split()
 				.Select(int.Parse).ToList())
 				.Select(digits => digits.Max() - digits.Min())
 				.Sum().ToString();
 		}
 
-		public string SolvePart2(string input)
+		public string SolvePart2(params string[] input)
 		{
 			return input
-				.Split("\r\n", StringSplitOptions.RemoveEmptyEntries)
 				.Select(line => line.Split()
 					.Select(int.Parse).ToList())
 				.Select(GetEvenDivision)
@@ -31,8 +28,8 @@ namespace AdventOfCode.Solutions.Year2017
 
 		private static int GetEvenDivision(IList<int> numbers)
 		{
-			for (int i = 0; i < numbers.Count; i++)
-			for (int j = 0; j < numbers.Count; j++)
+			for (var i = 0; i < numbers.Count; i++)
+			for (var j = 0; j < numbers.Count; j++)
 			{
 				if (i == j)
 				{
@@ -49,16 +46,9 @@ namespace AdventOfCode.Solutions.Year2017
 
 		public ICollection<bool> Assertions => new[]
 		{
-SolvePart1(
-	@"5 1 9 5
-7 5 3
-2 4 6 8") == "18",
+			SolvePart1("5 1 9 5", "7 5 3", "2 4 6 8") == "18",
 
-SolvePart2(
-	@"5 9 2 8
-9 4 7 3
-3 8 6 5") == "9",
-
+			SolvePart2("5 9 2 8", "9 4 7 3", "3 8 6 5") == "9",
 		};
 }
 }

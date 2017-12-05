@@ -61,8 +61,11 @@ namespace AdventOfCode.Automation
 			    new KeyValuePair<string, string>("level", ((int)part).ToString()),
 				new KeyValuePair<string, string>("answer", answer),
 		    });
-			
-		    var response = await _client.PostAsync($"{puzzleUrl}", content);
+
+		    var sessionId = _sessionProvider.GetSessionToken();
+		    _client.DefaultRequestHeaders.Add("Cookie", $"session={sessionId}");
+
+			var response = await _client.PostAsync($"{puzzleUrl}", content);
 		    var body = await response.Content.ReadAsStringAsync();
 		    if (body.Contains("That's not the right answer"))
 		    {

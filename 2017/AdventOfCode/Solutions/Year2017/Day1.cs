@@ -8,16 +8,18 @@ namespace AdventOfCode.Solutions.Year2017
 	    public int Year => 2017;
 	    public int Day => 1;
 
-	    public string SolvePart1(string input)
+	    public string SolvePart1(params string[] lines)
 	    {
+		    var input = lines[0];
 		    return input
 				.Where((t, i) => t == input[(i + 1) % input.Length])
 				.Sum(t => t - '0').ToString();
 	    }
 
-	    public string SolvePart2(string input)
+	    public string SolvePart2(params string[] lines)
 	    {
-		    return input
+		    var input = lines[0];
+			return input
 				.Where((t, i) => t == input[(i + input.Length / 2) % input.Length])
 				.Sum(t => t - '0').ToString();
 		}
