@@ -29,7 +29,7 @@ namespace AdventOfCode.Automation
 			var puzzlePath = GetPuzzleInputPath(year, day);
 			if (!File.Exists(puzzlePath))
 			{
-				var sessionId = _sessionProvider.GetSessionToken();
+				var sessionId = await _sessionProvider.GetSessionToken();
 				_client.DefaultRequestHeaders.Add("Cookie", $"session={sessionId}");
 
 				Directory.CreateDirectory(Path.GetDirectoryName(puzzlePath));

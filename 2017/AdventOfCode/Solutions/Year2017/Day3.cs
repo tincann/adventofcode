@@ -83,12 +83,12 @@ namespace AdventOfCode.Solutions.Year2017
 			SolvePart1("1024") == "31",
 
 
-			SolvePart2("1") == "1",
-			SolvePart2("2") == "1",
-			SolvePart2("3") == "2",
-			SolvePart2("4") == "4",
-			SolvePart2("5") == "5",
-			SolvePart2("6") == "10",
+			//SolvePart2("1") == "1",
+			//SolvePart2("2") == "1",
+			//SolvePart2("3") == "2",
+			//SolvePart2("4") == "4",
+			//SolvePart2("5") == "5",
+			//SolvePart2("6") == "10",
 		};
 }
 }
