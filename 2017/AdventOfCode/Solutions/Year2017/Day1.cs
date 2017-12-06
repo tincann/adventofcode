@@ -37,6 +37,5 @@ namespace AdventOfCode.Solutions.Year2017
 		    SolvePart2("123123") == "12",
 		    SolvePart2("12131415") == "4",
 		};
-
     }
 }

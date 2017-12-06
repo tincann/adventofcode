@@ -33,5 +33,5 @@ namespace AdventOfCode.Solutions.Year2017
 			SolvePart1("aa bb cc dd aaa") == "1",
 			SolvePart1("aa bb cc dd aaa") == "1",
 		};
-}
+	}
 }

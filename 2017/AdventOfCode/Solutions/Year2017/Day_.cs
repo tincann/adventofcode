@@ -24,5 +24,5 @@ namespace AdventOfCode.Solutions.Year2017
 			SolvePart1("") == "",
 			SolvePart2("") == "",
 		};
-}
+	}
 }

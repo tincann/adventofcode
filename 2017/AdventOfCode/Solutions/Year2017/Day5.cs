@@ -51,5 +51,5 @@ namespace AdventOfCode.Solutions.Year2017
 		{
 			SolvePart1("0", "3", "0", "1", "-3") == "5",
 		};
-}
+	}
 }

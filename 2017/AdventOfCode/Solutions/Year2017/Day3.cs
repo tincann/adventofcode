@@ -90,5 +90,5 @@ namespace AdventOfCode.Solutions.Year2017
 			//SolvePart2("5") == "5",
 			//SolvePart2("6") == "10",
 		};
-}
+	}
 }
