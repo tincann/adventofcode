@@ -11,11 +11,14 @@ namespace AdventOfCode.Solutions.Year2017
 		public string SolvePart1(params string[] input)
 		{
 			var banks = input[0].Split().Select(int.Parse).ToArray();
-			var confs = new HashSet<string> {ConfHash(banks)};
+			var confs = new HashSet<string>();
 
-			var cycles = 1;
-			while (true)
+			string hash;
+			var cycles = 0;
+			while (!confs.Contains(hash = ConfHash(banks)))
 			{
+				confs.Add(hash);
+
 				var (value, index) = MaxAt(banks);
 
 				banks[index] = 0;
@@ -25,17 +28,36 @@ namespace AdventOfCode.Solutions.Year2017
 					value--;
 				}
 
-				var hash = ConfHash(banks);
-				if (confs.Contains(hash))
-				{
-					break;
-				}
-
-				confs.Add(hash);
 				cycles++;
 			}
 
 			return cycles.ToString();
+		}
+
+		public string SolvePart2(params string[] input)
+		{
+			var banks = input[0].Split().Select(int.Parse).ToArray();
+			var confs = new Dictionary<string, int>();
+
+			string hash;
+			var cycles = 0;
+			while (!confs.ContainsKey(hash = ConfHash(banks)))
+			{
+				confs.Add(hash, cycles);
+
+				var (value, index) = MaxAt(banks);
+
+				banks[index] = 0;
+				while (value > 0)
+				{
+					banks[++index % banks.Length] += 1;
+					value--;
+				}
+
+				cycles++;
+			}
+
+			return (cycles - confs[hash]).ToString();
 		}
 
 		private static string ConfHash(IEnumerable<int> banks) => string.Join("_", banks);
@@ -55,34 +77,6 @@ namespace AdventOfCode.Solutions.Year2017
 				i++;
 			}
 			return (max, maxIndex);
-		}
-
-		public string SolvePart2(params string[] input)
-		{
-			var banks = input[0].Split().Select(int.Parse).ToArray();
-			var confs = new Dictionary<string, int> { {ConfHash(banks), 1} };
-
-			var cycles = 1;
-			while (true)
-			{
-				var (value, index) = MaxAt(banks);
-
-				banks[index] = 0;
-				while (value > 0)
-				{
-					banks[++index % banks.Length] += 1;
-					value--;
-				}
-
-				var hash = ConfHash(banks);
-				if (confs.ContainsKey(hash))
-				{
-					return (cycles - confs[hash]).ToString();
-				}
-
-				confs.Add(hash, cycles);
-				cycles++;
-			}
 		}
 
 		public ICollection<bool> Assertions => new[]
