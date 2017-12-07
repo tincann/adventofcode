@@ -19,7 +19,7 @@ namespace AdventOfCode.Automation
 	    {
 			Console.WriteLine($"# Testing puzzle {solution.Year} - {solution.Day}");
 			var input = await _api.LoadInput(solution.Year, solution.Day);
-		    var inputLines = input.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+		    var inputLines = input.Split(new[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
 			try
 			{
 				if (!solution.Assertions.All(x => x))
