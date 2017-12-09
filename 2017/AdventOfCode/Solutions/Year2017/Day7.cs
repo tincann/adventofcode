@@ -112,7 +112,7 @@ namespace AdventOfCode.Solutions.Year2017
 			}
 		}
 
-		public ICollection<bool> Assertions(string[] input) => new[]
+		public ICollection<bool> Assertions => new[]
 		{
 			true,
 			//SolvePart1("") == "",
