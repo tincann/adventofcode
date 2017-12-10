@@ -60,7 +60,7 @@ namespace AdventOfCode.Automation
 		    if (Console.ReadLine() == "y")
 		    {
 			    var result = await _api.SubmitAnswer(solution.Year, solution.Day, part, answer);
-			    Console.WriteLine(result ? "Answer was correct!" : "Answer was NOT correct!");
+			    Console.WriteLine(result);
 		    }
 	    }
     }

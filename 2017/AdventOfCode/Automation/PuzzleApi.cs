@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AdventOfCode.Solutions;
 
@@ -52,7 +53,9 @@ namespace AdventOfCode.Automation
 		    }
 	    }
 
-		public async Task<bool> SubmitAnswer(int year, int day, PuzzlePart part, string answer)
+	    readonly Regex _answerText = new Regex("<article>(.+)</article>");
+
+		public async Task<string> SubmitAnswer(int year, int day, PuzzlePart part, string answer)
 	    {
 		    var puzzleUrl = GetPuzzleUrl(year, day);
 
@@ -62,17 +65,14 @@ namespace AdventOfCode.Automation
 				new KeyValuePair<string, string>("answer", answer),
 		    });
 
-		    var sessionId = _sessionProvider.GetSessionToken();
+		    var sessionId = await _sessionProvider.GetSessionToken();
 		    _client.DefaultRequestHeaders.Add("Cookie", $"session={sessionId}");
 
-			var response = await _client.PostAsync($"{puzzleUrl}", content);
+			var response = await _client.PostAsync($"{puzzleUrl}/answer", content);
 		    var body = await response.Content.ReadAsStringAsync();
-		    if (body.Contains("That's not the right answer"))
-		    {
-			    return false;
-		    }
 
-		    return true;
+			var result = _answerText.Match(body).Groups[1].Value;
+		    return result;
 	    }
 	}
 }

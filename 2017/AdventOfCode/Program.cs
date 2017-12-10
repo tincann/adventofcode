@@ -26,11 +26,12 @@ namespace AdventOfCode
 		        new Day8(),
 		        new Day9(),
 		        new Day10(),
+		        new Day11(),
 			}.ToList();
 			//days.ForEach(x => runner.Run(x).Wait());
 
 
-			runner.Run(new Day10()).Wait();
+			runner.Run(new Day1()).Wait();
         }	
     }
 }
