@@ -31,7 +31,7 @@ namespace AdventOfCode
 			//days.ForEach(x => runner.Run(x).Wait());
 
 
-			runner.Run(new Day1()).Wait();
+			runner.Run(new Day11()).Wait();
         }	
     }
 }

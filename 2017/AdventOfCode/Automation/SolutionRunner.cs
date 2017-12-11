@@ -49,6 +49,7 @@ namespace AdventOfCode.Automation
 			catch (NotImplementedException e)
 		    {
 			    Console.WriteLine($"Not all parts implemented yet {e.StackTrace}");
+			    Console.ReadKey();
 		    }
 	    }
 
