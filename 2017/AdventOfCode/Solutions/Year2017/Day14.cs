@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
 namespace AdventOfCode.Solutions.Year2017
@@ -39,16 +40,15 @@ namespace AdventOfCode.Solutions.Year2017
 
 		    var unassigned = grid.UsedCells.Where(x => x.GroupId == 0);
 
-		    var groupId = 1;
-            // ReSharper disable once PossibleMultipleEnumeration
+		    var groupId = 0;
 		    while (unassigned.Any())
 		    {
 		        var cell = unassigned.First();
 
-                GrowGroup(grid, cell, groupId++);
+                GrowGroup(grid, cell, ++groupId);
 		    }
 
-		    return (groupId - 1).ToString();
+		    return groupId.ToString();
 		}
 
 	    private static void GrowGroup(Grid grid, Cell startCell, int groupId)

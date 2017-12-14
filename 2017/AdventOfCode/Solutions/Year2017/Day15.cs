@@ -4,10 +4,10 @@ using System.Linq;
 
 namespace AdventOfCode.Solutions.Year2017
 {
-	public class Day_ : IPuzzleSolution
+	public class Day15 : IPuzzleSolution
 	{
 		public int Year => 2017;
-		public int Day => 0;
+		public int Day => 15;
 
 		public string SolvePart1(params string[] input)
 		{
