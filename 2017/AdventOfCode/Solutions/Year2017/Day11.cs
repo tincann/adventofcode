@@ -48,14 +48,15 @@ namespace AdventOfCode.Solutions.Year2017
 			return (Math.Abs(a.x - b.x) + Math.Abs(a.y - b.y) + Math.Abs(a.z - b.z)) / 2;
 		}
 
-		readonly Dictionary<string, (int x, int y, int z)> _directions = new Dictionary<string, (int x, int y, int z)>
+		private readonly Dictionary<string, (int, int, int)> _directions = 
+			new Dictionary<string, (int, int, int)>
 		{
-			{"se", (1, -1, 0)},
-			{"ne", (1, 0, -1)},
-			{"n", (0, 1, -1)},
-			{"nw", (-1, 1, 0)},
-			{"sw", (-1, 0, 1)},
-			{"s", (0, -1, 1)},
+			{"se", ( 1, -1,  0)},
+			{"ne", ( 1,  0, -1)},
+			{"n",  ( 0,  1, -1)},
+			{"nw", (-1,  1,  0)},
+			{"sw", (-1,  0,  1)},
+			{"s",  ( 0, -1,  1)},
 		};
 
 		public ICollection<bool> Assertions => new bool[]
