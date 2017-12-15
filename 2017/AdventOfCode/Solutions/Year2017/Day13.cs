@@ -9,108 +9,69 @@ namespace AdventOfCode.Solutions.Year2017
     {
         public int Year => 2017;
         public int Day => 13;
-
-
-        private Regex _r = new Regex(@"(\d+): (\d+)");
-
+        
         public string SolvePart1(params string[] input)
         {
-            var layers = input.Select(x => _r.Match(x)).Select(x =>
-                new Layer
-                {
-                    Depth = int.Parse(x.Groups[1].Value),
-                    Range = int.Parse(x.Groups[2].Value)
-                }).ToDictionary(x => x.Depth);
-
-            var max = layers.Values.Max(x => x.Depth);
-
-            var damage = Walk(layers, max);
+            var layers = input.Select(Layer.Parse);
+            var damage = Walk(layers, 0);
             return damage.ToString();
         }
 
         public string SolvePart2(params string[] input)
         {
-            var layers = input.Select(x => _r.Match(x)).Select(x =>
-                new Layer
-                {
-                    Depth = int.Parse(x.Groups[1].Value),
-                    Range = int.Parse(x.Groups[2].Value)
-                }).ToDictionary(x => x.Depth);
-
-            var max = layers.Values.Max(x => x.Depth);
-
+            var layers = input.Select(Layer.Parse).ToList();
+            
             var delay = 0;
             while (true)
             {
-                var layersCopy = layers.Values.Select(x => x.Copy()).ToDictionary(x => x.Depth);
-                var damage = Walk(layersCopy, max, stopAtDamage: true);
+                var damage = Walk(layers, delay, stopAtDetection: true);
                 if (damage == 0 && delay >= 10)
                 {
                     return delay.ToString();
                 }
 
-                Step(layers.Values);
                 delay++;
             }
         }
 
-        private static int Walk(Dictionary<int, Layer> layers, int max, bool stopAtDamage = false)
+        private static int Walk(IEnumerable<Layer> layers, int startTime, bool stopAtDetection = false)
         {
             var damage = 0;
-            for (var position = 0; position <= max; position++)
-            {
-                if (layers.ContainsKey(position))
+            foreach(var layer in layers)
+            { 
+                if (layer.ScannerPosition(startTime + layer.Depth) == 0)
                 {
-                    var layer = layers[position];
-                    if (layer.ScannerPosition == 0)
+                    damage += layer.Depth * layer.Range;
+                    if (stopAtDetection)
                     {
-                        damage += layer.Depth * layer.Range;
-                        if (stopAtDamage)
-                        {
-                            return 1;
-                        }
+                        return 1;
                     }
                 }
-                Step(layers.Values);
             }
             return damage;
         }
 
-        private static void Step(IEnumerable<Layer> layers)
-        {
-            foreach (var layer in layers)
-            {
-                layer.ScannerPosition += layer.Direction;
-
-                if (layer.ScannerPosition == layer.Range - 1)
-                {
-                    layer.Direction = -1;
-                }
-                else if (layer.ScannerPosition == 0)
-                {
-                    layer.Direction = 1;
-                }
-            }
-        }
-
         private class Layer
         {
-            public int Depth { get; set; }
-            public int Range { get; set; }
+            public int Depth { get; private set; }
+            public int Range { get; private set; }
 
-            public int ScannerPosition { get; set; }
-            public int Direction { get; set; } = 1;
-
-            public Layer Copy()
+            public int ScannerPosition(int time)
             {
+                return time % ((Range - 1) * 2);
+            }
+
+            public static Layer Parse(string s)
+            {
+                var match = R.Match(s);
                 return new Layer
                 {
-                    Depth = Depth,
-                    Range = Range,
-                    ScannerPosition = ScannerPosition,
-                    Direction = Direction
+                    Depth = int.Parse(match.Groups[1].Value),
+                    Range = int.Parse(match.Groups[2].Value)
                 };
             }
+
+            private static readonly Regex R = new Regex(@"(\d+): (\d+)");
         }
 
         public ICollection<bool> Assertions => new bool[]
