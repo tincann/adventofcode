@@ -20,26 +20,21 @@ namespace AdventOfCode.Solutions.Year2017
 
         public string SolvePart2(params string[] input)
         {
-            var sequenceA = Generate(289, 16807, 2147483647, 4);
-            var sequenceB = Generate(629, 48271, 2147483647, 8);
+            var sequenceA = Generate(289, 16807, 2147483647).Where(x => (x & 3) == 0);
+            var sequenceB = Generate(629, 48271, 2147483647).Where(x => (x & 7) == 0);
 
             return sequenceA.Zip(sequenceB, (a, b) => (a: a, b: b))
                 .Take(5_000_000)
                 .Sum(p => Equal(p.a, p.b) ? 1 : 0).ToString();
         }
 
-        private static bool Equal(int a, int b) => (a & 0xFFFF) == (b & 0xFFFF);
+        private static bool Equal(long a, long b) => (a & 0xFFFF) == (b & 0xFFFF);
 
-        private static IEnumerable<int> Generate(long seed, long factor, long denominator, long multiple = 1)
+        private static IEnumerable<long> Generate(long value, long factor, long denominator)
         {
-            var currentValue = seed;
             while (true)
             {
-                currentValue = currentValue * factor % denominator;
-                if (multiple == 1 || currentValue % multiple == 0)
-                {
-                    yield return (int) currentValue;
-                }
+                yield return value = value * factor % denominator;
             }
         }
 
