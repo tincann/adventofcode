@@ -15,7 +15,7 @@ while (true)
     lines.Add(line);
 }
 
-var day = new Day08();
+var day = new Day10();
 
 Console.WriteLine($"Running {day.GetType().Name}");
 Console.WriteLine("Part 1:");
