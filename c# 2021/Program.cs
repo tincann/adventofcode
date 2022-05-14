@@ -8,14 +8,14 @@ Console.WriteLine("Please give puzzle input and end with an empty line:");
 while (true)
 {
     var line = Console.ReadLine();
-    if (String.IsNullOrEmpty(line))
+    if (line is "")
     {
         break;
     }
     lines.Add(line);
 }
 
-var day = new Day03();
+var day = new Day08();
 
 Console.WriteLine($"Running {day.GetType().Name}");
 Console.WriteLine("Part 1:");
