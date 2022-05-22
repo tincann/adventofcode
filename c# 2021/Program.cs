@@ -3,7 +3,7 @@
 using c__2021;
 
 
-var day = new Day12();
+var day = new Day13();
 
 var lines = new List<string>();
 
@@ -27,7 +27,7 @@ if (lines.Count == 0)
     while (true)
     {
         var line = Console.ReadLine();
-        if (line is "")
+        if (line is "q!")
         {
             break;
         }
