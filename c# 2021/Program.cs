@@ -3,7 +3,7 @@
 using c__2021;
 
 
-var day = new Day11();
+var day = new Day12();
 
 var lines = new List<string>();
 
