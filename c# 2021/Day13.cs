@@ -7,27 +7,27 @@ public class Day13
     
     enum Axis { X, Y };
     record FoldInstruction(Axis Axis, int Coordinate);
-    public void Part1(ICollection<string> lines)
+    public void Part1(ConsoleReader consoles)
     {
-        var (points, folds) = Parse(lines);
+        var (points, folds) = Parse(consoles);
 
         var transformedPoints = Fold(folds.Take(1), points);
         
         Console.WriteLine(transformedPoints.Distinct().Count());
     }
     
-    public void Part2(ICollection<string> lines)
+    public void Part2(ConsoleReader consoles)
     {
-        var (points, folds) = Parse(lines);
+        var (points, folds) = Parse(consoles);
 
         var transformedPoints = Fold(folds, points);
 
         Print(transformedPoints);
     }
 
-    private static (List<Point>, IEnumerable<FoldInstruction>) Parse(ICollection<string> lines)
+    private static (List<Point>, IEnumerable<FoldInstruction>) Parse(ConsoleReader consoles)
     {
-        var points = lines
+        var points = consoles
             .TakeWhile(line => line.Length > 0)
             .Select(line =>
             {
@@ -35,7 +35,7 @@ public class Day13
                 return new Point(int.Parse(parts[0]), int.Parse(parts[1]));
             }).ToList();
 
-        var folds = lines.Skip(points.Count + 1).Select(line =>
+        var folds = consoles.Skip(1).Select(line =>
         {
             var parts = line.SplitBy(' ')[2].Split('=');
             return new FoldInstruction(

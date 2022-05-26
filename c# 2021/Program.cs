@@ -3,43 +3,42 @@
 using c__2021;
 
 
-var day = new Day13();
+var day = new Day14();
 
-var lines = new List<string>();
+var cacheLines = new List<string>();
 
 var cachePath = $"{day.GetType().Name}_input.cache";
-
 if (File.Exists(cachePath))
 {
     Console.WriteLine("Use previous input? [y/n]");
     if (Console.ReadLine() == "y")
     {
-        lines.AddRange(await File.ReadAllLinesAsync(cachePath));
+        cacheLines.AddRange(await File.ReadAllLinesAsync(cachePath));
         Console.WriteLine("Using input:");
-        Console.WriteLine(String.Join("\n", lines));
+        Console.WriteLine(String.Join("\n", cacheLines));
         Console.WriteLine();
     }
 }
 
-if (lines.Count == 0)
+ILineReader lineReader = cacheLines.Any() ? new ConstantReader(cacheLines) : new ConsoleReader();
+try
 {
+    Console.WriteLine($"Running {day.GetType().Name}");
+    
     Console.WriteLine("Please give puzzle input and end with an empty line:");
-    while (true)
-    {
-        var line = Console.ReadLine();
-        if (line is "q!")
-        {
-            break;
-        }
+    Console.WriteLine();
+    
+    Console.WriteLine("Part 1:");
+    day.Part1(lineReader);
 
-        lines.Add(line);
-    }
-    await File.WriteAllLinesAsync(cachePath, lines);
+    Console.WriteLine("Part 2:");
+    day.Part2( new ConstantReader(lineReader.LinesRead));
+
 }
-
-Console.WriteLine($"Running {day.GetType().Name}");
-Console.WriteLine("Part 1:");
-day.Part1(lines);
-
-Console.WriteLine("Part 2:");
-day.Part2(lines);
+finally
+{
+    if (!cacheLines.Any())
+    {
+        await File.WriteAllLinesAsync(cachePath, lineReader.LinesRead);
+    }
+}
