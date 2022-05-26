@@ -9,7 +9,7 @@ public class Day11
 
     public void Part1(IEnumerable<string> lines)
     {
-        var grid = Grid<Octopus>.FromChars(lines.Select(x => x.Select(c => c)), c => new Octopus { Energy = c - '0' });
+        var grid = Grid<Octopus>.FromTokens(lines.TakeWhile(line => line != ""), c => new Octopus { Energy = c - '0' });
         
         var totalFlashes = SimulateStep(grid).Take(100).Sum();
 
@@ -18,8 +18,8 @@ public class Day11
     
     public void Part2(IEnumerable<string> lines)
     {
-        var grid = Grid<Octopus>.FromChars(lines.Select(x => x.Select(c => c)), c => new Octopus { Energy = c - '0' });
-        
+        var grid = Grid<Octopus>.FromTokens(lines.TakeWhile(line => line != ""), c => new Octopus { Energy = c - '0' });
+
         var firstStep = SimulateStep(grid)
             .TakeWhile(flashes => flashes < grid.Height * grid.Width)
             .Count();
@@ -48,7 +48,7 @@ public class Day11
             while (startedFlashing.Count > 0)
             {
                 var cell = startedFlashing.Dequeue();
-                var neighbours = grid.GetNeighbours(cell);
+                var neighbours = grid.GetNeighboursDiagonal(cell);
                 foreach (var neighbour in neighbours.Where(x => !flashed.Contains(x)))
                 {
                     neighbour.Value.Energy++;
