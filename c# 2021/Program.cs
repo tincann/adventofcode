@@ -3,7 +3,7 @@
 using c__2021;
 
 
-var day = new Day15();
+var day = new Day16();
 
 var cacheLines = new List<string>();
 
